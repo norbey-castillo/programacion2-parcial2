@@ -68,26 +68,7 @@ public class Videoclub {
 		pelicula.alquilar();
 	}
 
-	/**
-	 * PREGUNTA PRÁCTICA 1 (20 pts): completar contarPeliculasPorGenero().
-	 * <p>
-	 * Enunciado: recorrer el catálogo y devolver un Map donde la clave es el
-	 * género y el valor es cuántas películas hay de ese género.
-	 * <p>
-	 * Entrada de ejemplo: [El padrino-Drama, Pinocho-Animación,
-	 * Casablanca-Drama].
-	 * Salida esperada: {Drama=2, Animación=1} (el orden puede variar, HashMap
-	 * no garantiza orden).
-	 * <p>
-	 * Pista: recorre peliculas con un for-each. Para cada película, usa
-	 * conteo.getOrDefault(genero, 0) para saber el valor actual (0 si es la
-	 * primera vez que aparece ese género) y guarda ese valor + 1 con put().
-	 * <p>
-	 * Criterios de evaluación:
-	 * - No usa streams ni lambdas, solo un for-each y el Map.
-	 * - Usa Map.getOrDefault(), no un HashSet auxiliar ni containsKey().
-	 * - Si el catálogo está vacío, retorna un Map vacío (no null).
-	 */
+	
 	public Map<String, Integer> contarPeliculasPorGenero() {
 	    Map<String, Integer> conteo = new HashMap<>();
 
@@ -116,57 +97,45 @@ public class Videoclub {
 	    return resultados;
 	}
 
-	/**
-	 * PREGUNTA PRÁCTICA 3 (20 pts): completar peliculaMasAntiguaDeGenero().
-	 * <p>
-	 * Enunciado: dado el nombre de un género, encontrar la película con MENOR
-	 * año de estreno (la más antigua) dentro de ese género. Si el género no
-	 * tiene ninguna película, retornar null.
-	 * <p>
-	 * Entrada de ejemplo: peliculaMasAntiguaDeGenero("Drama") con el catálogo
-	 * de DatosIniciales.
-	 * Salida esperada: la película de género Drama con menor año.
-	 * <p>
-	 * Pista: primero filtra las películas de ese género con un for-each
-	 * (misma idea que buscarPorTituloParcial, pero comparando género con
-	 * equals() en vez de usar contains()). Con esa lista más corta, recorre
-	 * guardando en una variable la película "más antigua vista hasta ahora" y
-	 * compara año contra año.
-	 * <p>
-	 * Criterios de evaluación:
-	 * - Recorrido manual: no usa Collections.sort() ni Comparator.
-	 * - Compara géneros con equals(), nunca con ==.
-	 * - Compara años con &lt;, nunca con ==.
-	 * - Si el género no existe o no tiene películas, retorna null, no lanza
-	 *   excepción.
-	 */
+	
+	
 	public Pelicula peliculaMasAntiguaDeGenero(String genero) {
-		// TODO: reemplazar esta línea por la lógica descrita arriba.
-		throw new UnsupportedOperationException("TODO: completar peliculaMasAntiguaDeGenero() en Videoclub");
-	}
+	    Pelicula masAntigua = null;
 
-	/**
-	 * RETO OPCIONAL (10 pts extra): completar alquilarPrimeraDisponibleDeGenero().
-	 * <p>
-	 * Enunciado: dado el nombre de un género, alquilar la PRIMERA película
-	 * disponible que se encuentre de ese género (recorriendo en el orden del
-	 * catálogo) y retornarla. Si no hay ninguna disponible en ese género,
-	 * lanzar PeliculaNoDisponibleException con un mensaje claro.
-	 * <p>
-	 * Pista: reutiliza pelicula.alquilar() (ya lanza la excepción si ESA
-	 * película puntual está alquilada), pero aquí el punto es encontrar una
-	 * que SÍ esté disponible antes de intentar alquilarla (usa
-	 * estaDisponible()).
-	 * <p>
-	 * Criterios de evaluación:
-	 * - Compara género con equals().
-	 * - Usa estaDisponible() antes de llamar alquilar().
-	 * - Si ninguna está disponible en ese género, lanza la excepción (no
-	 *   retorna null).
-	 */
-	public Pelicula alquilarPrimeraDisponibleDeGenero(String genero) throws PeliculaNoDisponibleException {
-		// TODO (opcional): reemplazar esta línea por la lógica descrita arriba.
-		throw new UnsupportedOperationException(
-				"TODO opcional: completar alquilarPrimeraDisponibleDeGenero() en Videoclub");
+	    for (Pelicula pelicula : peliculas) {
+	        if (pelicula.getGenero().equals(genero)) {
+
+	            if (masAntigua == null ||
+	                pelicula.getAnioEstreno() < masAntigua.getAnioEstreno()) {
+
+	                masAntigua = pelicula;
+	            }
+	        }
+	    }
+
+	    return masAntigua;
 	}
+	
+
+	/* EJERCICIO OPCIONAL */
+	
+	
+	public Pelicula alquilarPrimeraDisponibleDeGenero(String genero)
+        throws PeliculaNoDisponibleException {
+
+    for (Pelicula pelicula : peliculas) {
+
+        if (pelicula.getGenero().equals(genero)
+                && pelicula.estaDisponible()) {
+
+            pelicula.alquilar();
+
+            return pelicula;
+        }
+    }
+
+    throw new PeliculaNoDisponibleException(
+            "No hay películas disponibles del género " + genero
+    );
+}
 }
