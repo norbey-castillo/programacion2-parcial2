@@ -102,29 +102,18 @@ public class Videoclub {
 	    return conteo;
 	}
 
-	/**
-	 * PREGUNTA PRÁCTICA 2 (20 pts): completar buscarPorTituloParcial().
-	 * <p>
-	 * Enunciado: recorrer el catálogo y devolver solo las películas cuyo
-	 * título contenga el texto buscado, sin importar mayúsculas o
-	 * minúsculas.
-	 * <p>
-	 * Entrada de ejemplo: "El padrino", "El rey león", "Casablanca";
-	 * buscarPorTituloParcial("rey").
-	 * Salida esperada: una lista con "El rey león" (contiene "rey", ignorando
-	 * mayúsculas/minúsculas).
-	 * <p>
-	 * Pista: usa pelicula.getTitulo().toLowerCase().contains(texto.toLowerCase())
-	 * dentro de un for-each, y agrega las coincidencias a una lista nueva.
-	 * <p>
-	 * Criterios de evaluación:
-	 * - No modifica la lista original (peliculas).
-	 * - La búsqueda ignora mayúsculas/minúsculas.
-	 * - Si no hay coincidencias, retorna una lista vacía (no null).
-	 */
+	
+	
 	public List<Pelicula> buscarPorTituloParcial(String texto) {
-		// TODO: reemplazar esta línea por la lógica descrita arriba.
-		throw new UnsupportedOperationException("TODO: completar buscarPorTituloParcial() en Videoclub");
+	    List<Pelicula> resultados = new ArrayList<>();
+
+	    for (Pelicula pelicula : peliculas) {
+	        if (pelicula.getTitulo().toLowerCase().contains(texto.toLowerCase())) {
+	            resultados.add(pelicula);
+	        }
+	    }
+
+	    return resultados;
 	}
 
 	/**
